@@ -1,23 +1,51 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Register from "./components/Register";
+import Particles from "./components/Particles";
+import Ring from './components/Ring';
+import Form from "./components/Form";
+import TransitionContainer from './components/TransitionContainer';
 import './App.css';
 
 function App() {
+  const [showRegister, setShowRegister] = useState(true);
+
+  const toggleForm = () => {
+    setShowRegister(!showRegister);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="flex w-full h-screen overflow-hidden">
+      {/* Left side of the screen */}
+      <div className="flex-1 flex flex-col justify-center items-center relative">
+        <TransitionContainer
+          isVisible={!showRegister}
+          transitionClassNames="slide"
         >
-          Learn React
-        </a>
-      </header>
+          <Form toggleForm={toggleForm} />
+        </TransitionContainer>
+        <TransitionContainer
+          isVisible={showRegister}
+          transitionClassNames="scale"
+        >
+          <Particles />
+        </TransitionContainer>
+      </div>
+
+      {/* Right side of the screen */}
+      <div className="flex-1 flex flex-col justify-center items-center bg-black-400 relative">
+        <TransitionContainer
+          isVisible={showRegister}
+          transitionClassNames="slide"
+        >
+          <Register toggleForm={toggleForm} />
+        </TransitionContainer>
+        <TransitionContainer
+          isVisible={!showRegister}
+          transitionClassNames="scale"
+        >
+          <Ring />
+        </TransitionContainer>
+      </div>
     </div>
   );
 }
